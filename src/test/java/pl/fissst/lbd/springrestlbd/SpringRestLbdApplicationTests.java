@@ -33,21 +33,18 @@ class SpringRestLbdApplicationTests {
 
    @Test void getStudentAll() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders.get("/api/student"))
-              .andExpect(status().isOk())
-              .andExpect(jsonPath("$").isArray())
-              .andExpect(jsonPath("$.[0].name", Is.is("Kamil")));
+              .andExpect(status().isUnauthorized());
    }
 
    @Test void getStudent() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders.get("/api/student/1"))
-              .andExpect(status().isOk())
-              .andExpect(jsonPath("$.name", Is.is("Kamil")));
+              .andExpect(status().isUnauthorized());
    }
 
    @Test
    void addStudent() throws Exception{
       ObjectMapper objectMapper = new ObjectMapper();
-      mockMvc.perform(MockMvcRequestBuilders.post("/api/student/add")
+      mockMvc.perform(MockMvcRequestBuilders.post("/api/student/add").header("role","STUDENT_ROLE")
                       .contentType(MediaType.APPLICATION_JSON)
                       .content(objectMapper.writeValueAsString(new Student(69,"test", "test2", 43,new ArrayList<>(Arrays.asList(ALGEBRA))))))
               .andDo(print())
@@ -57,11 +54,11 @@ class SpringRestLbdApplicationTests {
    @Test
 
    void editStudent() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.put("/api/student/edit/1")
+      mockMvc.perform(MockMvcRequestBuilders.put("/api/student/edit/1").header("role","STUDENT_ROLE")
               .param("newSurname", "Nowy")
               .param("newAge","100")).andDo(print()).andExpect(status().isOk());
 
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/student"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/student").header("role","STUDENT_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$").isArray())
               .andExpect(jsonPath("$.[0].surname", Is.is("Nowy")));
@@ -71,9 +68,9 @@ class SpringRestLbdApplicationTests {
 
    @Test
    void deleteStudent() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/delete/1")).andExpect(status().isOk());
+      mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/delete/1").header("role","STUDENT_ROLE")).andExpect(status().isOk());
 
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/student"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/student").header("role","STUDENT_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$").isArray())
               .andExpect(jsonPath("$.[0].name", Is.is("Bartosz")));
@@ -82,7 +79,7 @@ class SpringRestLbdApplicationTests {
    @Test
    void addTeacher() throws Exception{
       ObjectMapper objectMapper = new ObjectMapper();
-      mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher/adding")
+      mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher/adding").header("role","TEACHER_ROLE")
                       .contentType(MediaType.APPLICATION_JSON)
                       .content(objectMapper.writeValueAsString(new Teacher(69,"test","test2", ALGEBRA))))
               .andDo(print())
@@ -93,9 +90,9 @@ class SpringRestLbdApplicationTests {
    @Test
 
    void deleteTeacher() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.delete("/api/teacher/delete/1")).andExpect(status().isOk());
+      mockMvc.perform(MockMvcRequestBuilders.delete("/api/teacher/delete/1").header("role","TEACHER_ROLE")).andExpect(status().isOk());
 
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/find/1"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/find/1").header("role","TEACHER_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$.name", Is.is("Andrzej")));
    }
@@ -103,7 +100,7 @@ class SpringRestLbdApplicationTests {
    @Test
 
    void findTeacher() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/find/1"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/find/1").header("role","TEACHER_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$.name",Is.is("Marzena")));
    }
@@ -111,7 +108,7 @@ class SpringRestLbdApplicationTests {
 
    @Test
    void findClassBySubject() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/teacherclass/1"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/teacherclass/1").header("role","TEACHER_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$").isArray())
               .andExpect(jsonPath("$.[0].name", Is.is("Kamil")));
@@ -119,12 +116,12 @@ class SpringRestLbdApplicationTests {
    @Test
 
    void deletePeopleFromTeacherClass() throws Exception{
-      mockMvc.perform(MockMvcRequestBuilders.delete("/api/teacher/deleting")
+      mockMvc.perform(MockMvcRequestBuilders.delete("/api/teacher/deleting").header("role","TEACHER_ROLE")
               .param("teacherId","1")
               .param("studentId","1"))
               .andExpect(status().isOk());
 
-      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/teacherclass/1"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/teacherclass/1").header("role","TEACHER_ROLE"))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$").isArray())
               .andExpect(jsonPath("$.[0].name", Is.is("Bartosz")));
