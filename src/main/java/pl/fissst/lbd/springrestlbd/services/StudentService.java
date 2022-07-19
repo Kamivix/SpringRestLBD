@@ -42,8 +42,9 @@ public class StudentService {
     }
 
     public void editStudent(int id,String newSurname,int newAge){
-studentList.get(id).setAge(newAge);
-studentList.get(id).setSurname(newSurname);
+        Student student=getStudent(id);
+        student.setSurname(newSurname);
+        student.setAge(newAge);
 
     }
 

@@ -32,7 +32,7 @@ StudentService studentService;
     }
 
     public void deleteTeacher(int id){
-        teacherList.remove(id);
+        teacherList.remove(id-1);
     }
 
     public Teacher getTeacher(int id){
