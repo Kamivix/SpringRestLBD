@@ -1,10 +1,10 @@
 package pl.fissst.lbd.springrestlbd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.fissst.lbd.springrestlbd.model.Student;
 import pl.fissst.lbd.springrestlbd.model.Teacher;
-import pl.fissst.lbd.springrestlbd.model.uniqueSubject;
 import pl.fissst.lbd.springrestlbd.services.TeacherService;
 
 import java.util.List;
@@ -26,14 +26,20 @@ public class TeacherController {
     }
 
     @GetMapping(value = "/find/{id}")
-    public Teacher getTeacher(@PathVariable int id){
-        return teacherService.getTeacher(id);
-    }
+    public ResponseEntity<Teacher> getTeacher(@PathVariable int id){
+        return ResponseEntity.ok()
+                .header("successful","true")
+                .body(teacherService.getTeacher(id));}
+
+
 
     @GetMapping(value = "/teacherclass/{id}")
-    public List<Student> getTeacherClass(@PathVariable int id){
-        return teacherService.getTeacherClass(id);
+    public ResponseEntity<List<Student>> getTeacherClass(@PathVariable int id){
+        return ResponseEntity.ok()
+                .header("successful","true")
+                .body(teacherService.getTeacherClass(id));
     }
+
 
     @DeleteMapping(value = "deleting")
     public void deleteStudentFromClassByTeacherId(@RequestParam("teacherId") int teacherId, @RequestParam("studentId") int studentId){

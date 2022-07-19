@@ -6,6 +6,7 @@ import pl.fissst.lbd.springrestlbd.model.Student;
 import pl.fissst.lbd.springrestlbd.model.Teacher;
 import pl.fissst.lbd.springrestlbd.model.uniqueSubject;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,11 +36,19 @@ StudentService studentService;
         teacherList.remove(id-1);
     }
 
-    public Teacher getTeacher(int id){
-        System.out.println(teacherList);
+    public Teacher getTeacher(int id)  {
+//        if(id<1){
+//            throw new ArrayIndexOutOfBoundsException("Wyjebalo poza skale");
+//        }
+
         return teacherList.get(id-1);
 
+
+
     }
+
+
+
 
     public List<Student> getTeacherClass(int id){
        return studentService.studentList.

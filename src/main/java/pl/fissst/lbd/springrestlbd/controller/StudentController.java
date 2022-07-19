@@ -2,6 +2,7 @@ package pl.fissst.lbd.springrestlbd.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.fissst.lbd.springrestlbd.model.Student;
 import pl.fissst.lbd.springrestlbd.model.uniqueSubject;
@@ -20,15 +21,16 @@ import java.util.List;
     }
 
     @GetMapping()
-    public List<Student> getAllStudents() {
-    return studentService.getAllStudents();
-    }
+    public ResponseEntity <List<Student>> getAllStudents() {
+        return ResponseEntity.ok()
+                .header("successful","true")
+                .body(studentService.getAllStudents());}
 
     @GetMapping(value = "/{id}")
-    public Student getStudent(@PathVariable int id){
-    return studentService.getStudent(id);
-
-    }
+    public ResponseEntity<Student> getStudent(@PathVariable int id){
+        return ResponseEntity.ok()
+                .header("successful","true")
+                .body(studentService.getStudent(id));}
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteStudent(@PathVariable int id){
