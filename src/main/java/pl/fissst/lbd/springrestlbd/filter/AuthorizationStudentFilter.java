@@ -1,11 +1,6 @@
 package pl.fissst.lbd.springrestlbd.filter;
-
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,7 +8,7 @@ import java.io.IOException;
 public class AuthorizationStudentFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {;
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
 
 
